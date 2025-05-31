@@ -5,20 +5,27 @@
     <projectFile>FileSyncer.csproj</projectFile>
     <projectFile profileName="http">Server/Server.csproj</projectFile>
     <projectFile profileName="https">Server/Server.csproj</projectFile>
+    <projectFile>SyncServer/SyncServer.csproj</projectFile>
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="016eacd9-96f9-407c-8770-3d4dc567a63c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/SyncServer/TaskHandler.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SyncServer/TaskReceiver.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.FileSyncer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.FileSyncer/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/FileMonitor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Client/FileMonitor.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Client/FileSyncer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Client/FileSyncer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Client/Program.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Client/Transport.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Client/Transport.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Common/SyncTask.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/SyncTask.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FileSyncer.sln" beforeDir="false" afterPath="$PROJECT_DIR$/FileSyncer.sln" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FileSyncer.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/FileSyncer.sln.DotSettings.user" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Server/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/Program.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/Properties/launchSettings.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/Server.csproj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/appsettings.Development.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/appsettings.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/FileMonitorTest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Tests/FileMonitorTest.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,6 +69,7 @@
     ".NET Launch Settings Profile.Server: http.executor": "Run",
     ".NET Launch Settings Profile.Server: https.executor": "Run",
     ".NET Project.Client.executor": "Run",
+    ".NET Project.SyncServer.executor": "Run",
     "4f66d9d8-3f1b-4993-80e0-af0a20e84876.executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -74,11 +82,11 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "editor.preferences.appearance",
+    "settings.editor.selected.configurable": "preferences.sourceCode.C#",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected=".NET Launch Settings Profile.Server: http">
+  <component name="RunManager" selected=".NET Project.Client">
     <configuration name="Client" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="$PROJECT_DIR$/Client/bin/Debug/net9.0/Client" />
       <option name="PROGRAM_PARAMETERS" value="$USER_HOME$/client_proj_test http://localhost:5214" />
@@ -125,6 +133,29 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="SyncServer" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="$PROJECT_DIR$/SyncServer/bin/Debug/net9.0/SyncServer" />
+      <option name="PROGRAM_PARAMETERS" value="/tmp/server_test/" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/SyncServer/bin/Debug/net9.0" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="ENV_FILE_PATHS" value="" />
+      <option name="REDIRECT_INPUT_PATH" value="" />
+      <option name="PTY_MODE" value="Auto" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="AUTO_ATTACH_CHILDREN" value="0" />
+      <option name="MIXED_MODE_DEBUG" value="0" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/SyncServer/SyncServer.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="net9.0" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
     <configuration name="Server: http" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
       <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/Server/Server.csproj" />
       <option name="LAUNCH_PROFILE_TFM" value="net9.0" />
@@ -140,24 +171,9 @@
         <option name="Build" />
       </method>
     </configuration>
-    <configuration name="Server: https" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
-      <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/Server/Server.csproj" />
-      <option name="LAUNCH_PROFILE_TFM" value="net9.0" />
-      <option name="LAUNCH_PROFILE_NAME" value="https" />
-      <option name="USE_EXTERNAL_CONSOLE" value="0" />
-      <option name="USE_MONO" value="0" />
-      <option name="RUNTIME_ARGUMENTS" value="" />
-      <option name="GENERATE_APPLICATIONHOST_CONFIG" value="1" />
-      <option name="SHOW_IIS_EXPRESS_OUTPUT" value="0" />
-      <option name="SEND_DEBUG_REQUEST" value="1" />
-      <option name="ADDITIONAL_IIS_EXPRESS_ARGUMENTS" value="" />
-      <method v="2">
-        <option name="Build" />
-      </method>
-    </configuration>
     <list>
       <item itemvalue=".NET Launch Settings Profile.Server: http" />
-      <item itemvalue=".NET Launch Settings Profile.Server: https" />
+      <item itemvalue=".NET Project.SyncServer" />
       <item itemvalue=".NET Project.Client" />
       <item itemvalue=".NET Project.FileSyncer" />
     </list>
@@ -169,7 +185,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1748497753467</updated>
-      <workItem from="1748497755071" duration="51358000" />
+      <workItem from="1748497755071" duration="51738000" />
+      <workItem from="1748680662815" duration="8270000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Prototype that syncs new dirs and files kind of working.">
       <option name="closed" value="true" />
@@ -224,32 +241,6 @@
           </properties>
           <option name="timeStamp" value="6" />
         </breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Tests/FileSyncerTest.cs</url>
-          <line>82</line>
-          <properties documentPath="$PROJECT_DIR$/Tests/FileSyncerTest.cs" containingFunctionPresentation="Lambda expression inside Method 'Test_ProcessEvents_PostsSyncEventForFilesInsideSubDir'">
-            <startOffsets>
-              <option value="3368" />
-            </startOffsets>
-            <endOffsets>
-              <option value="3422" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="16" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Tests/FileSyncerTest.cs</url>
-          <line>25</line>
-          <properties documentPath="$PROJECT_DIR$/Tests/FileSyncerTest.cs" containingFunctionPresentation="Method 'Test_ProcessEvents_PostsSyncEventForOneExistingFile'">
-            <startOffsets>
-              <option value="894" />
-            </startOffsets>
-            <endOffsets>
-              <option value="944" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="20" />
-        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>

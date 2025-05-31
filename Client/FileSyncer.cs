@@ -31,7 +31,7 @@ public class FileSyncer
         _monitor.FileChanged += (_, e ) => { EnqueueTask(() => HandleEvent(e));};
         _monitor.FileRenamed += (_, e ) => { EnqueueTask(() => HandleEvent(e));};
         _monitor.FileDeleted += (_, e ) => { EnqueueTask(() => HandleEvent(e));};
-        //TODO: can just put sync tasks on queue instead of handling itself
+        //TODO: can just put sync tasks on queue instead of handling itself so that it can listen for new ones at the same time
         _initialSyncTask = SyncFullSourceDirectory();
     }
     
