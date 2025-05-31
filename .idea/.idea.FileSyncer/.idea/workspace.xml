@@ -11,15 +11,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="016eacd9-96f9-407c-8770-3d4dc567a63c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Client/EventArgs.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Tests/FileSyncerTest.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.FileSyncer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.FileSyncer/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Client/FileMonitor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Client/FileMonitor.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Client/FileSyncer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Client/FileSyncer.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Client/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Client/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/Transport.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Client/Transport.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/SyncTask.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/SyncTask.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FileSyncer.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/FileSyncer.sln.DotSettings.user" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/Properties/launchSettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/Server/Properties/launchSettings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tests/FileMonitorTest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Tests/FileMonitorTest.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Server/Program.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,6 +34,7 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/4bb7d09f05394915a346531eb292880215000/8d/8287d687/MockFileSystemWatcherFactory.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/8e0e5cfdf5354375b88e811a052f3521e26200/ca/ec86c920/NotImplementedException.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/a2b359bd07984bc0acf00c3251522bf916a00/26/f2787509/NotifyFilters.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/7e333a9f3297ba553cccfd3b7c3f1f96125b23d09f883e4d6e66d531559a4c/Type.CoreCLR.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/8d253e85623dbcafcda28febe2a37a984ff78a8cab68dbdfe7c1b698d1f5fba/MethodCall.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/9510b85d65abab521a30c1da4e343e219825c86b4fc4ccc66c6ff2b4a34e7e7/MockFileData.cs" root0="FORCE_HIGHLIGHTING" />
@@ -78,7 +78,7 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected=".NET Project.Client">
+  <component name="RunManager" selected=".NET Launch Settings Profile.Server: http">
     <configuration name="Client" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="$PROJECT_DIR$/Client/bin/Debug/net9.0/Client" />
       <option name="PROGRAM_PARAMETERS" value="$USER_HOME$/client_proj_test http://localhost:5214" />
@@ -169,7 +169,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1748497753467</updated>
-      <workItem from="1748497755071" duration="47106000" />
+      <workItem from="1748497755071" duration="51358000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Prototype that syncs new dirs and files kind of working.">
       <option name="closed" value="true" />

@@ -4,8 +4,7 @@ namespace Client;
 
 class Program
 {
-    // <source dir> <server uri>
-    static void Main(string[] args)
+    static async Task Main(string[] args)
     {
         if (args.Length != 2)
         {  
@@ -31,10 +30,7 @@ class Program
         var transport = new Transport(serverUri);
         var syncer = new FileSyncer(sourceDirPath, transport, monitor, fileSystem);
         
-       // while (true)
-       // {
-            syncer.ProcessEvents();//TODO: just start once?>?
-        //}
+        await syncer.ProcessEvents();
     }
     
     private static bool IsValidSourceDir(string sourceDirPath)

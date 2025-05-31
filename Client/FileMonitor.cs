@@ -28,7 +28,6 @@ public class FileMonitor : IFileMonitor
         _watcher.NotifyFilter = NotifyFilters.Attributes 
                                 | NotifyFilters.DirectoryName 
                                 | NotifyFilters.FileName 
-                                | NotifyFilters.Security 
                                 | NotifyFilters.LastWrite;
         _watcher.IncludeSubdirectories = true;
         _watcher.EnableRaisingEvents = true;
@@ -52,8 +51,6 @@ public class FileMonitor : IFileMonitor
     {
         if (e.Name != null)
         {
-            Console.WriteLine(e.FullPath);
-            Console.WriteLine(e.Name);
             NewFile?.Invoke(this, new NewFileEventArgs { RelativePath = e.Name });
         }
     } 
@@ -68,7 +65,6 @@ public class FileMonitor : IFileMonitor
     
     private void OnRenamed(object sender, RenamedEventArgs e)
     {
-
         if (e.Name != null && e.OldName != null)
         {
             FileRenamed?.Invoke(this,
@@ -78,6 +74,6 @@ public class FileMonitor : IFileMonitor
    
     private void OnError(object sender, ErrorEventArgs e)
     {
-        Console.WriteLine($"error message: {e.GetException().Message}");
+        Console.WriteLine($"FileMonitor error: {e.GetException().Message}");
     }
 }

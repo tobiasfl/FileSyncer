@@ -8,6 +8,8 @@ public interface ITransport
 {
     public Task Post(AddFileSyncTask task);
     public Task Post(AddDirSyncTask task);
+    public Task Post(RenameSyncTask task);
+    public Task Post(DeleteSyncTask task);
 }
 
 public class Transport : ITransport
@@ -17,42 +19,42 @@ public class Transport : ITransport
     public Transport(Uri serverUri)
     {
         _httpClient = new HttpClient();
-        //_httpClient.BaseAddress = new Uri("http://localhost:5214");
         _httpClient.BaseAddress = serverUri;
     }
 
     public async Task Post(AddFileSyncTask task)
     {
-        string jsonContent = JsonSerializer.Serialize(task);
-        Console.WriteLine(jsonContent);
-        var httpContent = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-               
-        Console.WriteLine($"sending post {_httpClient.BaseAddress}sync");
-                
-        var response = await _httpClient.PostAsync($"/sync", httpContent);
-        if (response.IsSuccessStatusCode)
-        {
-            Console.WriteLine("File sync completed successfully");
-        }
-        else
-        {
-            string errorContent = await response.Content.ReadAsStringAsync();
-            Console.WriteLine($"Error: {response.StatusCode} - {errorContent}");
-        }           
+        await SendRequest(task, $"/sync");
     }
     
     public async Task Post(AddDirSyncTask task)
     {
+        await SendRequest(task, $"/sync/dir");
+    }
+    
+    public async Task Post(RenameSyncTask task)
+    {
+        await SendRequest(task, "/sync/rename");
+    }
+
+    public async Task Post(DeleteSyncTask task)
+    {
+        await SendRequest(task, "/sync/delete");
+    }
+
+    private async Task SendRequest<TSyncTask>(TSyncTask task, string requestUri)
+    {
         var jsonContent = JsonSerializer.Serialize(task);
         Console.WriteLine(jsonContent);
+        
         var httpContent = new StringContent(jsonContent, Encoding.UTF8, "application/json");
                
-        Console.WriteLine($"sending post {_httpClient.BaseAddress}sync");
+        Console.WriteLine($"sending post {_httpClient.BaseAddress}{requestUri}");
                 
-        var response = await _httpClient.PostAsync($"/sync/dir", httpContent);
+        var response = await _httpClient.PostAsync(requestUri, httpContent);
         if (response.IsSuccessStatusCode)
         {
-            Console.WriteLine("File sync completed successfully");
+            Console.WriteLine("Sync task completed successfully");
         }
         else
         {

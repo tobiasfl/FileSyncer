@@ -6,13 +6,18 @@ using Common;
 
 namespace Client;
 
+
+/*
+ * 
+ */
+
 public class FileSyncer
 {
     private readonly IFileMonitor _monitor;
     private readonly ITransport _transport;
     private readonly string _sourceDirPath;
     private readonly IFileSystem _fileSystem;
-    private readonly BlockingCollection<Func<Task>> _queuedSyncTasks = new BlockingCollection<Func<Task>>();
+    private readonly BlockingCollection<Func<Task>> _queuedSyncTasks = new();
     private readonly Task _initialSyncTask;
     
     public FileSyncer(string sourceDirPath, ITransport transport, IFileMonitor monitor, IFileSystem fileSystem)
@@ -23,9 +28,11 @@ public class FileSyncer
         _fileSystem = fileSystem;
         
         _monitor.NewFile += (_, e ) => { EnqueueTask(() => HandleEvent(e));};
-        //_monitor.FileChanged += (_, e ) => { EnqueueTask(() => HandleEvent(e));};
+        _monitor.FileChanged += (_, e ) => { EnqueueTask(() => HandleEvent(e));};
+        _monitor.FileRenamed += (_, e ) => { EnqueueTask(() => HandleEvent(e));};
+        _monitor.FileDeleted += (_, e ) => { EnqueueTask(() => HandleEvent(e));};
+        //TODO: can just put sync tasks on queue instead of handling itself
         _initialSyncTask = SyncFullSourceDirectory();
-        
     }
     
     public async Task ProcessEvents()
@@ -186,6 +193,25 @@ public class FileSyncer
     {
         await HandleEvent(new NewFileEventArgs { RelativePath = e.RelativePath });
     }
+    
+    private async Task HandleEvent(FileRenamedEventArgs e)
+    {
+        var syncTask = new RenameSyncTask
+        {
+            RelativePathOld = e.FromRelativePath,
+            RelativePathNew = e.ToRelativePath
+        };
+        await _transport.Post(syncTask);
+    }
 
+    private async Task HandleEvent(FileDeletedEventArgs e)
+    {
+        var syncTask = new DeleteSyncTask()
+        {
+            RelativePath = e.RelativePath,
+        };
+        await _transport.Post(syncTask);
+    }
+    
     private string ToFullPath(string relativePath) => Path.Combine(_sourceDirPath, relativePath);
 }
