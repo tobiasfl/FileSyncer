@@ -1,4 +1,5 @@
-﻿using System.IO.Abstractions;
+﻿using System.Globalization;
+using System.IO.Abstractions;
 
 namespace Client;
 
@@ -6,9 +7,9 @@ class Program
 {
     static async Task Main(string[] args)
     {
-        if (args.Length != 2)
+        if (args.Length != 3)
         {  
-            Console.WriteLine("Usage: <source dir path> <server http uri>");
+            Console.WriteLine("Usage: <source dir> <server host> <server port>");
             return;
         }
       
@@ -19,15 +20,22 @@ class Program
             return;
         }
         
-        if (!Uri.TryCreate(args[1], UriKind.Absolute, out var serverUri))
+        var serverHost = args[1];
+        if (Uri.CheckHostName(serverHost) == UriHostNameType.Unknown)
         {
-            Console.WriteLine($"Invalid server uri {serverUri}");
+            Console.WriteLine($"Invalid server hostname {serverHost}");
             return;
         }
 
+        if (!int.TryParse(args[2], out var serverPort))
+        {
+            Console.WriteLine($"Invalid port arg");
+            return;
+        }
+        
         var fileSystem = new FileSystem();
         var monitor = new FileMonitor(sourceDirPath, new FileSystemWatcherWrapper(fileSystem));
-        var transport = new Transport(serverUri);
+        var transport = new Transport(serverHost, serverPort);
         var syncer = new FileSyncer(sourceDirPath, transport, monitor, fileSystem);
         
         await syncer.ProcessEvents();

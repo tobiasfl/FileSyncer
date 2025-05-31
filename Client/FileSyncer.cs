@@ -1,14 +1,14 @@
 using System.Collections.Concurrent;
 using System.IO.Abstractions;
-using System.Text;
-using System.Text.Json;
 using Common;
 
 namespace Client;
 
 
 /*
- * 
+ * Acts as a queue of file syncing tasks, ensuring that incoming changes in the directory
+ * are synced to the server in the order they happen and that only one file is read into
+ * memory at a time.
  */
 
 public class FileSyncer
@@ -31,7 +31,6 @@ public class FileSyncer
         _monitor.FileChanged += (_, e ) => { EnqueueTask(() => HandleEvent(e));};
         _monitor.FileRenamed += (_, e ) => { EnqueueTask(() => HandleEvent(e));};
         _monitor.FileDeleted += (_, e ) => { EnqueueTask(() => HandleEvent(e));};
-        //TODO: can just put sync tasks on queue instead of handling itself so that it can listen for new ones at the same time
         _initialSyncTask = SyncFullSourceDirectory();
     }
     
@@ -191,6 +190,7 @@ public class FileSyncer
     
     private async Task HandleEvent(FileChangedEventArgs e)
     {
+        // Simply overwrite the whole file on far-end if it changes
         await HandleEvent(new NewFileEventArgs { RelativePath = e.RelativePath });
     }
     

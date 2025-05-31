@@ -8,7 +8,7 @@ class Program
     {
         if (args.Length != 1)
         {  
-            Console.WriteLine("Usage: <destination dir path>");
+            Console.WriteLine("Usage: <destination dir>");
             return;
         }
       

@@ -12,20 +12,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="016eacd9-96f9-407c-8770-3d4dc567a63c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/SyncServer/TaskHandler.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SyncServer/TaskReceiver.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.FileSyncer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.FileSyncer/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Client/FileSyncer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Client/FileSyncer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Client/Program.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Client/Transport.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Client/Transport.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/SyncTask.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/SyncTask.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FileSyncer.sln" beforeDir="false" afterPath="$PROJECT_DIR$/FileSyncer.sln" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FileSyncer.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/FileSyncer.sln.DotSettings.user" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/Program.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/Properties/launchSettings.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/Server.csproj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/appsettings.Development.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/appsettings.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tests/FileMonitorTest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Tests/FileMonitorTest.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SyncServer/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SyncServer/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/FileSyncerTest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Tests/FileSyncerTest.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,6 +32,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/1ba659a0095145ffb16e19119082153d3aa00/28/7bcf628f/Uri.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/4bb7d09f05394915a346531eb292880215000/8d/8287d687/MockFileSystemWatcherFactory.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/8e0e5cfdf5354375b88e811a052f3521e26200/ca/ec86c920/NotImplementedException.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/a2b359bd07984bc0acf00c3251522bf916a00/26/f2787509/NotifyFilters.cs" root0="FORCE_HIGHLIGHTING" />
@@ -74,7 +68,7 @@
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "ad01782d-b3ad-4ed3-be4e-399821bd51ff.executor": "Debug",
+    "ad01782d-b3ad-4ed3-be4e-399821bd51ff.executor": "Run",
     "f695c8a7-5748-4ae5-8031-e7f7ef614205.executor": "Debug",
     "git-widget-placeholder": "master",
     "node.js.detected.package.eslint": "true",
@@ -86,10 +80,10 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected=".NET Project.Client">
+  <component name="RunManager" selected="ad01782d-b3ad-4ed3-be4e-399821bd51ff">
     <configuration name="Client" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="$PROJECT_DIR$/Client/bin/Debug/net9.0/Client" />
-      <option name="PROGRAM_PARAMETERS" value="$USER_HOME$/client_proj_test http://localhost:5214" />
+      <option name="PROGRAM_PARAMETERS" value="$USER_HOME$/client_proj_test localhost 5214" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Client/bin/Debug/net9.0" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="1" />
@@ -156,23 +150,7 @@
         <option name="Build" />
       </method>
     </configuration>
-    <configuration name="Server: http" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
-      <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/Server/Server.csproj" />
-      <option name="LAUNCH_PROFILE_TFM" value="net9.0" />
-      <option name="LAUNCH_PROFILE_NAME" value="http" />
-      <option name="USE_EXTERNAL_CONSOLE" value="0" />
-      <option name="USE_MONO" value="0" />
-      <option name="RUNTIME_ARGUMENTS" value="" />
-      <option name="GENERATE_APPLICATIONHOST_CONFIG" value="1" />
-      <option name="SHOW_IIS_EXPRESS_OUTPUT" value="0" />
-      <option name="SEND_DEBUG_REQUEST" value="1" />
-      <option name="ADDITIONAL_IIS_EXPRESS_ARGUMENTS" value="" />
-      <method v="2">
-        <option name="Build" />
-      </method>
-    </configuration>
     <list>
-      <item itemvalue=".NET Launch Settings Profile.Server: http" />
       <item itemvalue=".NET Project.SyncServer" />
       <item itemvalue=".NET Project.Client" />
       <item itemvalue=".NET Project.FileSyncer" />
@@ -186,7 +164,7 @@
       <option name="presentableId" value="Default" />
       <updated>1748497753467</updated>
       <workItem from="1748497755071" duration="51738000" />
-      <workItem from="1748680662815" duration="8270000" />
+      <workItem from="1748680662815" duration="10251000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Prototype that syncs new dirs and files kind of working.">
       <option name="closed" value="true" />

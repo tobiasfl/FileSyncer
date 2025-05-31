@@ -16,11 +16,9 @@ public class Transport : ITransport
     private readonly NetworkStream _stream;
     private readonly JsonSerializerOptions _options; 
     
-    public Transport(Uri serverUri)
+    public Transport(string serverHost, int serverPort)
     {
-        var host = serverUri.Host;
-        var port = serverUri.Port;
-        _client = new TcpClient(host, port);
+        _client = new TcpClient(serverHost, serverPort);
         _stream = _client.GetStream();
         _options = new JsonSerializerOptions
         {
@@ -43,11 +41,6 @@ public class Transport : ITransport
         catch (IOException e)
         {
             Console.WriteLine(e.Message);
-        }
-        finally
-        {
-            Console.WriteLine("Closing connection");
-            Dispose();
         }
     }
     private void Dispose()
