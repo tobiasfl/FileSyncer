@@ -7,14 +7,12 @@ namespace Tests;
 
 public class FileMonitorTest
 {
-    private readonly MockFileSystem _fileSystem = new MockFileSystem();
-
     [Fact]
     public void Test_NewFile_TriggersWhenNewFileInDir()
     {
         var fileSystemWatcherMock = new Mock<IFileSystemWatcher>();
 
-        var dirPath = "/source_dir";
+        const string dirPath = "/source_dir";
         var fileMonitor = new FileMonitor(dirPath, fileSystemWatcherMock.Object);
 
         NewFileEventArgs? newFileEvent = null;
@@ -31,7 +29,7 @@ public class FileMonitorTest
     {
         var fileSystemWatcherMock = new Mock<IFileSystemWatcher>();
 
-        var dirPath = "/source_dir";
+        const string dirPath = "/source_dir";
         var fileMonitor = new FileMonitor(dirPath, fileSystemWatcherMock.Object);
 
         NewFileEventArgs? newFileEvent = null;
@@ -67,7 +65,7 @@ public class FileMonitorTest
     {
         var fileSystemWatcherMock = new Mock<IFileSystemWatcher>();
 
-        var dirPath = "/source_dir";
+        const string dirPath = "/source_dir";
         var fileMonitor = new FileMonitor(dirPath, fileSystemWatcherMock.Object);
 
         FileChangedEventArgs?  fileChangedEvent = null;

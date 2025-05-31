@@ -1,4 +1,6 @@
-﻿namespace Client;
+﻿using System.IO.Abstractions;
+
+namespace Client;
 
 class Program
 {
@@ -24,12 +26,15 @@ class Program
             return;
         }
 
+        var fileSystem = new FileSystem();
+        var monitor = new FileMonitor(sourceDirPath, new FileSystemWatcherWrapper(fileSystem));
         var transport = new Transport(serverUri);
-        var syncer = new FileSyncer("/tmp", transport);
-        while (true)
-        {
-            syncer.ProcessEvents();
-        }
+        var syncer = new FileSyncer(sourceDirPath, transport, monitor, fileSystem);
+        
+       // while (true)
+       // {
+            syncer.ProcessEvents();//TODO: just start once?>?
+        //}
     }
     
     private static bool IsValidSourceDir(string sourceDirPath)

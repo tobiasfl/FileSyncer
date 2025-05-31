@@ -11,14 +11,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="016eacd9-96f9-407c-8770-3d4dc567a63c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Client/FileMonitor.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Client/FileSyncer.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Client/Transport.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Common/SyncTask.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/FileSyncer.csproj" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/FileSyncer.sln" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Program.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/EventArgs.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tests/FileSyncerTest.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.FileSyncer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.FileSyncer/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/FileMonitor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Client/FileMonitor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/FileSyncer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Client/FileSyncer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Client/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FileSyncer.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/FileSyncer.sln.DotSettings.user" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/Properties/launchSettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/Server/Properties/launchSettings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/FileMonitorTest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Tests/FileMonitorTest.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,15 +35,20 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/4bb7d09f05394915a346531eb292880215000/8d/8287d687/MockFileSystemWatcherFactory.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/8e0e5cfdf5354375b88e811a052f3521e26200/ca/ec86c920/NotImplementedException.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/7e333a9f3297ba553cccfd3b7c3f1f96125b23d09f883e4d6e66d531559a4c/Type.CoreCLR.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/8d253e85623dbcafcda28febe2a37a984ff78a8cab68dbdfe7c1b698d1f5fba/MethodCall.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/9510b85d65abab521a30c1da4e343e219825c86b4fc4ccc66c6ff2b4a34e7e7/MockFileData.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/97b5ae3af8663a94524477e92e8ff86ff1d035b8804cb4c2cd174c20ee2529/EventArgs.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/aa5ce332efd6af149bfc55c86f03f151f67a815eef584f43e85a9a4de4f9f84/Callback.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/bfff78ecaa39c818519fc918bb2d4bbdca6ad93d7170f5cf325f67ccd0b97d43/BooleanAsserts.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/c7dd9656baf09c34f7b493f4a2d73adb76bfe47ee6067bd478e352830e9a4/MockFileSystemWatcherFactory.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/d8631619d7feeec78565fe8977b4d71ac99696bd6b0918826b4658c0bc4e33/NotImplementedException.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Program.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 3
-}]]></component>
+  <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
   <component name="ProjectId" id="2xl1GeIvrezlPWLyGqC228IctJf" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -54,11 +60,14 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     ".NET Launch Settings Profile.Server: http.executor": "Run",
+    ".NET Launch Settings Profile.Server: https.executor": "Run",
     ".NET Project.Client.executor": "Run",
     "4f66d9d8-3f1b-4993-80e0-af0a20e84876.executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
+    "ad01782d-b3ad-4ed3-be4e-399821bd51ff.executor": "Debug",
+    "f695c8a7-5748-4ae5-8031-e7f7ef614205.executor": "Debug",
     "git-widget-placeholder": "master",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -72,10 +81,10 @@
   <component name="RunManager" selected=".NET Project.Client">
     <configuration name="Client" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="$PROJECT_DIR$/Client/bin/Debug/net9.0/Client" />
-      <option name="PROGRAM_PARAMETERS" value="/tmp http://localhost:5214" />
+      <option name="PROGRAM_PARAMETERS" value="$USER_HOME$/client_proj_test http://localhost:5214" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Client/bin/Debug/net9.0" />
       <option name="PASS_PARENT_ENVS" value="1" />
-      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_EXTERNAL_CONSOLE" value="1" />
       <option name="ENV_FILE_PATHS" value="" />
       <option name="REDIRECT_INPUT_PATH" value="" />
       <option name="PTY_MODE" value="Auto" />
@@ -160,16 +169,39 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1748497753467</updated>
-      <workItem from="1748497755071" duration="33358000" />
+      <workItem from="1748497755071" duration="47106000" />
     </task>
+    <task id="LOCAL-00001" summary="Initial Prototype that syncs new dirs and files kind of working.">
+      <option name="closed" value="true" />
+      <created>1748547133663</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1748547133663</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
   <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+    <MESSAGE value="Initial Prototype that syncs new dirs and files kind of working." />
+    <option name="LAST_COMMIT_MESSAGE" value="Initial Prototype that syncs new dirs and files kind of working." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -192,6 +224,32 @@
           </properties>
           <option name="timeStamp" value="6" />
         </breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Tests/FileSyncerTest.cs</url>
+          <line>82</line>
+          <properties documentPath="$PROJECT_DIR$/Tests/FileSyncerTest.cs" containingFunctionPresentation="Lambda expression inside Method 'Test_ProcessEvents_PostsSyncEventForFilesInsideSubDir'">
+            <startOffsets>
+              <option value="3368" />
+            </startOffsets>
+            <endOffsets>
+              <option value="3422" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="16" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Tests/FileSyncerTest.cs</url>
+          <line>25</line>
+          <properties documentPath="$PROJECT_DIR$/Tests/FileSyncerTest.cs" containingFunctionPresentation="Method 'Test_ProcessEvents_PostsSyncEventForOneExistingFile'">
+            <startOffsets>
+              <option value="894" />
+            </startOffsets>
+            <endOffsets>
+              <option value="944" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="20" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>

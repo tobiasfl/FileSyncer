@@ -8,43 +8,33 @@ namespace Client;
 
 public class FileSyncer
 {
-    private readonly FileMonitor _monitor;
+    private readonly IFileMonitor _monitor;
     private readonly ITransport _transport;
     private readonly string _sourceDirPath;
+    private readonly IFileSystem _fileSystem;
     private readonly BlockingCollection<Func<Task>> _queuedSyncTasks = new BlockingCollection<Func<Task>>();
-    private bool _initialSyncDone = false;
+    private readonly Task _initialSyncTask;
     
-    public FileSyncer(string sourceDirPath, ITransport transport)
+    public FileSyncer(string sourceDirPath, ITransport transport, IFileMonitor monitor, IFileSystem fileSystem)
     {
         _sourceDirPath = sourceDirPath;
-        _monitor = new FileMonitor(sourceDirPath, new FileSystemWatcherWrapper(new FileSystem()));
-        _monitor.NewFile += (_, e ) => { EnqueueTask(() => HandleEvent(e));};
-        _monitor.FileChanged += (_, e ) => { EnqueueTask(() => HandleEvent(e));};
+        _monitor = monitor;
         _transport = transport;
+        _fileSystem = fileSystem;
         
-    }
-  
-    private void EnqueueTask(Func<Task> task)
-    {
-        if (!_queuedSyncTasks.IsAddingCompleted)
-        {
-            _queuedSyncTasks.Add(task);     
-        }
+        _monitor.NewFile += (_, e ) => { EnqueueTask(() => HandleEvent(e));};
+        //_monitor.FileChanged += (_, e ) => { EnqueueTask(() => HandleEvent(e));};
+        _initialSyncTask = SyncFullSourceDirectory();
+        
     }
     
     public async Task ProcessEvents()
     {
-        if (!_initialSyncDone)
-        {
-            await SyncFullSourceDirectory();
-            _initialSyncDone = true;
-        }
-        
+        await _initialSyncTask;
         try
         {
             foreach (var getATaskFunc in _queuedSyncTasks.GetConsumingEnumerable())
             {
-                Console.WriteLine("processing");
                 try
                 {
                     await getATaskFunc();
@@ -61,13 +51,26 @@ public class FileSyncer
         }
     }
 
+    private void EnqueueTask(Func<Task> task)
+    {
+        if (!_queuedSyncTasks.IsAddingCompleted)
+        {
+            _queuedSyncTasks.Add(task);     
+        }
+    }
 
     private async Task SyncFullSourceDirectory()
     {
-        string[]? filesAndDirs = null;
+        await SyncDirectoriesInSource();
+        await SyncFilesInSource();
+    }
+
+    private async Task SyncDirectoriesInSource()
+    {
+        IEnumerable<string> subDirectories = [];
         try
         {
-            filesAndDirs = Directory.GetFiles(_sourceDirPath, "*.*", SearchOption.AllDirectories);
+            subDirectories = _fileSystem.Directory.EnumerateDirectories(_sourceDirPath, "*", SearchOption.AllDirectories);
         } 
         catch (FileNotFoundException ex)
         {
@@ -78,50 +81,82 @@ public class FileSyncer
             Console.WriteLine($"error {ex.Message}");
         }
 
-        if (filesAndDirs == null)
+        foreach (var dirPath in subDirectories)
         {
-            return;
-        }
-        var fullPath = _sourceDirPath;
-        foreach (var fileOrDir in filesAndDirs)
-        {
-            try
-            {
-                FileAttributes attributes = File.GetAttributes($"{fullPath}/{fileOrDir}");
-                if (attributes.HasFlag(FileAttributes.Directory))
-                {
-                    var syncTask = new AddDirSyncTask
-                    {
-                        RelativePath = fileOrDir,
-                        Attributes = attributes,
-                    };
-
-                    await _transport.Post(syncTask);
-                }
-                else if (attributes.HasFlag(FileAttributes.Normal))
-                {
-                    var bytes = await File.ReadAllBytesAsync(fullPath);
-                    var syncTask = new AddFileSyncTask
-                    {
-                        RelativePath = fileOrDir,
-                        Attributes = attributes,
-                        Content = bytes
-                    };
-
-                    await _transport.Post(syncTask);
-                }
-            }
-            catch (FileNotFoundException ex)
-            {
-                Console.WriteLine($"File not found");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"error {ex.Message}");
-            }
+            await SyncDir(dirPath);
         } 
     }
 
+    private async Task SyncDir(string fullPath)
+    {
+        try
+        {
+            var attributes = _fileSystem.File.GetAttributes(fullPath);
+            var syncTask = new AddDirSyncTask
+            {
+                RelativePath = Path.GetRelativePath(_sourceDirPath, fullPath),
+                Attributes = attributes,
+            };
+
+            await _transport.Post(syncTask);
+        }
+        catch (FileNotFoundException ex)
+        {
+            Console.WriteLine($"File not found");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"error {ex.Message}");
+        }
+    }
+    
+    private async Task SyncFilesInSource()
+    {
+        IEnumerable<string> fileNames = [];
+        try
+        {
+            fileNames = _fileSystem.Directory.EnumerateFiles(_sourceDirPath, "*", SearchOption.AllDirectories);
+        } 
+        catch (FileNotFoundException ex)
+        {
+            Console.WriteLine($"File not found");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"error {ex.Message}");
+        }
+
+        foreach (var fileName in fileNames)
+        {
+            await SyncFile(fileName);
+        } 
+    }
+
+    private async Task SyncFile(string fullPath)
+    {
+        try
+        {
+            FileAttributes attributes = _fileSystem.File.GetAttributes(fullPath);
+            var bytes = await _fileSystem.File.ReadAllBytesAsync(fullPath);
+            var syncTask = new AddFileSyncTask
+            {
+                RelativePath = Path.GetRelativePath(_sourceDirPath, fullPath),
+                Attributes = attributes,
+                Content = bytes
+            };
+
+            await _transport.Post(syncTask);
+        }
+        catch (FileNotFoundException ex)
+        {
+            Console.WriteLine($"File not found");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"error {ex.Message}");
+        }
+    }
+   
     private async Task HandleEvent(NewFileEventArgs e)
     {
         try
@@ -130,25 +165,11 @@ public class FileSyncer
             FileAttributes attributes = File.GetAttributes(fullPath);
             if (attributes.HasFlag(FileAttributes.Directory))
             {
-                var syncTask = new AddDirSyncTask
-                {
-                    RelativePath = e.RelativePath,
-                    Attributes = attributes,
-                };
-
-                await _transport.Post(syncTask);
+                await SyncDir(fullPath);
             }
             else if (attributes.HasFlag(FileAttributes.Normal))
             {
-                var bytes = await File.ReadAllBytesAsync(fullPath);
-                var syncTask = new AddFileSyncTask
-                {
-                    RelativePath = e.RelativePath,
-                    Attributes = attributes,
-                    Content = bytes
-                };
-
-                await _transport.Post(syncTask);
+                await SyncFile(fullPath);
             }
         }
         catch (FileNotFoundException ex)
