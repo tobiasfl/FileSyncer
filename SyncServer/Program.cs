@@ -2,13 +2,11 @@
 
 class Program
 {
-    private const int DefaultTcpPort = 5214;
-
     static async Task Main(string[] args)
     {
-        if (args.Length != 1)
+        if (args.Length != 2)
         {  
-            Console.WriteLine("Usage: <destination dir>");
+            Console.WriteLine("Usage: <destination dir> <TCP port>");
             return;
         }
       
@@ -18,10 +16,17 @@ class Program
             Console.WriteLine($"Invalid destination directory: {dstDir}");
             return;
         }
+      
         
-        Console.WriteLine($"Running sync server, listening on port {DefaultTcpPort}, syncing to {dstDir}");
+        if (!int.TryParse(args[1], out var port))
+        {
+            Console.WriteLine($"Invalid port arg");
+            return;
+        }
+        
+        Console.WriteLine($"Running sync server, listening on port {port}, syncing to {dstDir}");
         var taskHandler = new TaskHandler(dstDir);
-        var receiver = new TaskReceiver(DefaultTcpPort, taskHandler);
+        var receiver = new TaskReceiver(port, taskHandler);
         await receiver.StartListening();
     }
 

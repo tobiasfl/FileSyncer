@@ -13,12 +13,7 @@
   <component name="ChangeListManager">
     <list default="true" id="016eacd9-96f9-407c-8770-3d4dc567a63c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.FileSyncer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.FileSyncer/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/FileSyncer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Client/FileSyncer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Client/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/Transport.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Client/Transport.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FileSyncer.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/FileSyncer.sln.DotSettings.user" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SyncServer/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SyncServer/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tests/FileSyncerTest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Tests/FileSyncerTest.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,29 +53,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    ".NET Launch Settings Profile.Server: http.executor": "Run",
-    ".NET Launch Settings Profile.Server: https.executor": "Run",
-    ".NET Project.Client.executor": "Run",
-    ".NET Project.SyncServer.executor": "Run",
-    "4f66d9d8-3f1b-4993-80e0-af0a20e84876.executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "ad01782d-b3ad-4ed3-be4e-399821bd51ff.executor": "Run",
-    "f695c8a7-5748-4ae5-8031-e7f7ef614205.executor": "Debug",
-    "git-widget-placeholder": "master",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.sourceCode.C#",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;.NET Launch Settings Profile.Server: http.executor&quot;: &quot;Run&quot;,
+    &quot;.NET Launch Settings Profile.Server: https.executor&quot;: &quot;Run&quot;,
+    &quot;.NET Project.Client.executor&quot;: &quot;Run&quot;,
+    &quot;.NET Project.SyncServer.executor&quot;: &quot;Run&quot;,
+    &quot;4f66d9d8-3f1b-4993-80e0-af0a20e84876.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;ad01782d-b3ad-4ed3-be4e-399821bd51ff.executor&quot;: &quot;Run&quot;,
+    &quot;f695c8a7-5748-4ae5-8031-e7f7ef614205.executor&quot;: &quot;Debug&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.sourceCode.C#&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
-  <component name="RunManager" selected="ad01782d-b3ad-4ed3-be4e-399821bd51ff">
+}</component>
+  <component name="RunManager" selected=".NET Project.Client">
     <configuration name="Client" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="$PROJECT_DIR$/Client/bin/Debug/net9.0/Client" />
       <option name="PROGRAM_PARAMETERS" value="$USER_HOME$/client_proj_test localhost 5214" />
@@ -129,7 +124,7 @@
     </configuration>
     <configuration name="SyncServer" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="$PROJECT_DIR$/SyncServer/bin/Debug/net9.0/SyncServer" />
-      <option name="PROGRAM_PARAMETERS" value="/tmp/server_test/" />
+      <option name="PROGRAM_PARAMETERS" value="/tmp/server_test/ 5214" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/SyncServer/bin/Debug/net9.0" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
@@ -164,7 +159,7 @@
       <option name="presentableId" value="Default" />
       <updated>1748497753467</updated>
       <workItem from="1748497755071" duration="51738000" />
-      <workItem from="1748680662815" duration="10251000" />
+      <workItem from="1748680662815" duration="11815000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Prototype that syncs new dirs and files kind of working.">
       <option name="closed" value="true" />
