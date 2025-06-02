@@ -13,7 +13,11 @@
   <component name="ChangeListManager">
     <list default="true" id="016eacd9-96f9-407c-8770-3d4dc567a63c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.FileSyncer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.FileSyncer/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SyncServer/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SyncServer/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/FileSyncer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Client/FileSyncer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Client/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/Transport.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Client/Transport.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FileSyncer.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/FileSyncer.sln.DotSettings.user" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tests/FileSyncerTest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Tests/FileSyncerTest.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,6 +35,8 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/4bb7d09f05394915a346531eb292880215000/8d/8287d687/MockFileSystemWatcherFactory.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/8e0e5cfdf5354375b88e811a052f3521e26200/ca/ec86c920/NotImplementedException.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/a2b359bd07984bc0acf00c3251522bf916a00/26/f2787509/NotifyFilters.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/26b165a09dd13b6b6a966d3fa5ba9bbecebf8486dab9ab1bf4f74b1a3be5e8/BlockingCollection.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/5e14a4e27990972fa4ae94975603bd298aaf328ee083c03b10569ee4724d57/TestInvoker.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/7e333a9f3297ba553cccfd3b7c3f1f96125b23d09f883e4d6e66d531559a4c/Type.CoreCLR.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/8d253e85623dbcafcda28febe2a37a984ff78a8cab68dbdfe7c1b698d1f5fba/MethodCall.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/9510b85d65abab521a30c1da4e343e219825c86b4fc4ccc66c6ff2b4a34e7e7/MockFileData.cs" root0="FORCE_HIGHLIGHTING" />
@@ -39,7 +45,6 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/bfff78ecaa39c818519fc918bb2d4bbdca6ad93d7170f5cf325f67ccd0b97d43/BooleanAsserts.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/c7dd9656baf09c34f7b493f4a2d73adb76bfe47ee6067bd478e352830e9a4/MockFileSystemWatcherFactory.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/d8631619d7feeec78565fe8977b4d71ac99696bd6b0918826b4658c0bc4e33/NotImplementedException.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Program.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProjectColorInfo">{
@@ -60,10 +65,12 @@
     &quot;.NET Project.Client.executor&quot;: &quot;Run&quot;,
     &quot;.NET Project.SyncServer.executor&quot;: &quot;Run&quot;,
     &quot;4f66d9d8-3f1b-4993-80e0-af0a20e84876.executor&quot;: &quot;Run&quot;,
+    &quot;4fdc69de-1ce3-4742-b3e6-e1c5644e6c16.executor&quot;: &quot;Debug&quot;,
     &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;ad01782d-b3ad-4ed3-be4e-399821bd51ff.executor&quot;: &quot;Run&quot;,
+    &quot;e22cb2a4-df3e-4a6a-aca6-9a67edabacc9.executor&quot;: &quot;Debug&quot;,
     &quot;f695c8a7-5748-4ae5-8031-e7f7ef614205.executor&quot;: &quot;Debug&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
@@ -159,7 +166,7 @@
       <option name="presentableId" value="Default" />
       <updated>1748497753467</updated>
       <workItem from="1748497755071" duration="51738000" />
-      <workItem from="1748680662815" duration="11815000" />
+      <workItem from="1748680662815" duration="20017000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Prototype that syncs new dirs and files kind of working.">
       <option name="closed" value="true" />
@@ -214,6 +221,32 @@
           </properties>
           <option name="timeStamp" value="6" />
         </breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Client/FileSyncer.cs</url>
+          <line>167</line>
+          <properties documentPath="$PROJECT_DIR$/Client/FileSyncer.cs" containingFunctionPresentation="Method 'HandleEvent'">
+            <startOffsets>
+              <option value="4679" />
+            </startOffsets>
+            <endOffsets>
+              <option value="5225" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="19" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Client/FileSyncer.cs</url>
+          <line>102</line>
+          <properties documentPath="$PROJECT_DIR$/Client/FileSyncer.cs" containingFunctionPresentation="Method 'SyncDir'">
+            <startOffsets>
+              <option value="2848" />
+            </startOffsets>
+            <endOffsets>
+              <option value="2849" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="21" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>

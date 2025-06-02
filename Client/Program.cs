@@ -38,7 +38,11 @@ class Program
         var transport = new Transport(serverHost, serverPort);
         var syncer = new FileSyncer(sourceDirPath, transport, monitor, fileSystem);
         
-        await syncer.ProcessEvents();
+        syncer.StartSyncing();
+        while (await syncer.AwaitEnqueuedEvents())
+        {
+            await syncer.ProcessEnqueuedEvent();
+        }
     }
     
     private static bool IsValidSourceDir(string sourceDirPath)

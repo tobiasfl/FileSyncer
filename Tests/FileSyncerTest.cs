@@ -8,12 +8,12 @@ namespace Tests;
 public class FileSyncerTest
 {
     private readonly Mock<IFileMonitor> _fileMonitorMock = new Mock<IFileMonitor>();
-    private readonly Mock<ITransport> _transportMock = new Mock<ITransport>();
+    private readonly Mock<ITransport> _transportMock = new Mock<ITransport>(MockBehavior.Strict);
     private const string DirPath = "/source_dir";
     private readonly MockFileSystem _fileSystem = new MockFileSystem();
 
     [Fact]
-    public async Task Test_Constructor_InitialSyncPostsSyncEventForOneExistingFile()
+    public async Task Test_StartSyncing_InitialSyncPostsSyncEventForOneExistingFile()
     {
         _fileSystem.AddDirectory(DirPath);
 
@@ -23,45 +23,33 @@ public class FileSyncerTest
         var expectedPostedTask = new AddFileSyncTask
             { RelativePath = "test", Content = System.Text.Encoding.Default.GetBytes("some data"), Attributes = FileAttributes.Normal };
         
-        var postCalled = new TaskCompletionSource<bool>();
-        _transportMock.Setup(x => x.Post(It.IsAny<AddFileSyncTask>()))
-            .Callback(() => postCalled.SetResult(true));
-
         var fileSyncer = new FileSyncer(DirPath, _transportMock.Object, _fileMonitorMock.Object, _fileSystem);
+        fileSyncer.StartSyncing();
+        await fileSyncer.ProcessEnqueuedEvent();
 
-        var completedTask = await Task.WhenAny(postCalled.Task, Task.Delay(1000));
-        
-        Assert.True(completedTask == postCalled.Task, "Timed out");
         _transportMock.Verify(x => x.Post(It.Is<AddFileSyncTask>(t => t.RelativePath == "test")), Times.Once); 
         _transportMock.Verify(x => x.Post(It.Is<AddFileSyncTask>(t => t.Attributes == FileAttributes.Normal)), Times.Once); 
         _transportMock.Verify(x => x.Post(It.Is<AddFileSyncTask>(t => t.Content.SequenceEqual(expectedPostedTask.Content))), Times.Once); 
     }
 
     [Fact]
-    public async Task Test_Constructor_InitialSyncPostsSyncEventForOneExistingSubDir()
+    public async Task Test_StartSyncing_InitialSyncPostsSyncEventForOneExistingSubDir()
     {
         _fileSystem.AddDirectory(DirPath);
 
         const string expectedDirName = "test_dir";
         _fileSystem.AddDirectory($"{DirPath}/{expectedDirName}");
         
-        var expectedPostedTask = new AddDirSyncTask
-            { RelativePath = expectedDirName, Attributes = FileAttributes.Directory };
-        
-        var postCalled = new TaskCompletionSource<bool>();
-        _transportMock.Setup(x => x.Post(It.IsAny<AddDirSyncTask>()))
-            .Callback(() => postCalled.SetResult(true));
-
         var fileSyncer = new FileSyncer(DirPath, _transportMock.Object, _fileMonitorMock.Object, _fileSystem);
-
-        var completedTask = await Task.WhenAny(postCalled.Task, Task.Delay(1000));
+        fileSyncer.StartSyncing();
+        await fileSyncer.ProcessEnqueuedEvent();
         
-        Assert.True(completedTask == postCalled.Task, "Timed out");
-        _transportMock.Verify(x => x.Post(expectedPostedTask), Times.Once); 
+        _transportMock.Verify(x => x.Post(new AddDirSyncTask
+            { RelativePath = expectedDirName, Attributes = FileAttributes.Directory }), Times.Once); 
     }
     
     [Fact]
-    public async Task Test_Constructor_InitialSyncPostsSyncEventForFilesInsideSubDir()
+    public async Task Test_StartSyncing_InitialSyncPostsSyncEventForFilesInsideSubDir()
     {
         _fileSystem.AddDirectory(DirPath);
         const string subDir = $"{DirPath}/sub_dir";
@@ -72,35 +60,19 @@ public class FileSyncerTest
         
         const string secondFile = $"{subDir}/file2";
         _fileSystem.AddFile(secondFile, new MockFileData(""));
-        
-        int posts = 0;
-        const int expectedPosts = 3; 
-        var allPostsComplete = new TaskCompletionSource<bool>();
-
-        var incrementCb = () =>
-        {
-            if (Interlocked.Increment(ref posts) >= expectedPosts)
-            {
-                allPostsComplete.TrySetResult(true);
-            }
-        };
-        
-        _transportMock.Setup(x => x.Post(It.IsAny<AddFileSyncTask>()))
-            .Callback(incrementCb);
-        _transportMock.Setup(x => x.Post(It.IsAny<AddDirSyncTask>()))
-            .Callback(incrementCb);
 
         var fileSyncer = new FileSyncer(DirPath, _transportMock.Object, _fileMonitorMock.Object, _fileSystem);
+        fileSyncer.StartSyncing();
+        await fileSyncer.ProcessEnqueuedEvent();
+        await fileSyncer.ProcessEnqueuedEvent();
+        await fileSyncer.ProcessEnqueuedEvent();
 
-        var completedTask = await Task.WhenAny(allPostsComplete.Task, Task.Delay(1000));
-        
-        Assert.True(completedTask == allPostsComplete.Task, "Timed out");
         _transportMock.Verify(x => x.Post(It.Is<AddFileSyncTask>(t => t.RelativePath == "sub_dir/file1")), Times.Once); 
         _transportMock.Verify(x => x.Post(It.Is<AddFileSyncTask>(t => t.RelativePath == "sub_dir/file2")), Times.Once); 
     }
     
     [Fact]
-    public async Task Test_Constructor_InitialSyncPostsSyncEventForDirInsideSubDir()
+    public async Task Test_StartSyncing_InitialSyncPostsSyncEventForDirInsideSubDir()
     {
         _fileSystem.AddDirectory(DirPath);
         const string subDir = $"{DirPath}/sub_dir";
@@ -109,26 +81,11 @@ public class FileSyncerTest
         const string nestedSubDir = $"{subDir}/another_dir";
         _fileSystem.AddDirectory(nestedSubDir);
        
-        int posts = 0;
-        const int expectedPosts = 2; 
-        var allPostsComplete = new TaskCompletionSource<bool>();
-
-        var incrementCb = () =>
-        {
-            if (Interlocked.Increment(ref posts) >= expectedPosts)
-            {
-                allPostsComplete.TrySetResult(true);
-            }
-        };
-        
-        _transportMock.Setup(x => x.Post(It.IsAny<AddDirSyncTask>()))
-            .Callback(incrementCb);
-
         var fileSyncer = new FileSyncer(DirPath, _transportMock.Object, _fileMonitorMock.Object, _fileSystem);
+        fileSyncer.StartSyncing();
+        await fileSyncer.ProcessEnqueuedEvent();
+        await fileSyncer.ProcessEnqueuedEvent();
 
-        var completedTask = await Task.WhenAny(allPostsComplete.Task, Task.Delay(1000));
-        
-        Assert.True(completedTask == allPostsComplete.Task, "Timed out");
         _transportMock.Verify(x => x.Post(new AddDirSyncTask
         {
             RelativePath = "sub_dir",
@@ -139,5 +96,40 @@ public class FileSyncerTest
             RelativePath = "sub_dir/another_dir",
             Attributes = FileAttributes.Directory
         }), Times.Once);
+    }
+    
+    [Fact]
+    public async Task Test_ProcessEnqueuedEvents_StartsProcessingOldestEvents()
+    {
+        var callOrder = new List<int>(2);
+        _transportMock
+            .Setup(x => x.Post(new AddDirSyncTask
+            {
+                RelativePath = $"extra_dir",
+                Attributes = FileAttributes.Directory
+            }))
+            .Callback(() => callOrder.Add(0));
+        _transportMock
+            .Setup(x => x.Post(new AddDirSyncTask
+            {
+                RelativePath = $"new_dir_before_initial_sync",
+                Attributes = FileAttributes.Directory
+            }))
+            .Callback(() => callOrder.Add(1));
+        
+        _fileSystem.AddDirectory(DirPath);
+        _fileSystem.AddDirectory($"{DirPath}/extra_dir");
+
+        var fileSyncer = new FileSyncer(DirPath, _transportMock.Object, _fileMonitorMock.Object, _fileSystem);
+        fileSyncer.StartSyncing();
+        
+        //Trigger a file monitor event before initial sync of the second existing dir is finished
+        const string newDirBeforeInitialSyncProcessed = $"{DirPath}/new_dir_before_initial_sync";
+        _fileSystem.AddDirectory(newDirBeforeInitialSyncProcessed);
+        _fileMonitorMock.Raise(c => c.NewFile += null, new NewFileEventArgs{RelativePath = newDirBeforeInitialSyncProcessed});    
+        
+        await fileSyncer.ProcessEnqueuedEvent();
+        await fileSyncer.ProcessEnqueuedEvent();
+        Assert.Equal(callOrder, new []{0, 1});
     }
 }

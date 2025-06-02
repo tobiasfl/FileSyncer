@@ -1,5 +1,5 @@
-using System.Collections.Concurrent;
 using System.IO.Abstractions;
+using System.Threading.Channels;
 using Common;
 
 namespace Client;
@@ -17,8 +17,7 @@ public class FileSyncer
     private readonly ITransport _transport;
     private readonly string _sourceDirPath;
     private readonly IFileSystem _fileSystem;
-    private readonly BlockingCollection<Func<Task>> _queuedSyncTasks = new();
-    private readonly Task _initialSyncTask;
+    private readonly Channel<Func<Task>> _queuedSyncTasks = Channel.CreateUnbounded<Func<Task>>();
     
     public FileSyncer(string sourceDirPath, ITransport transport, IFileMonitor monitor, IFileSystem fileSystem)
     {
@@ -26,30 +25,38 @@ public class FileSyncer
         _monitor = monitor;
         _transport = transport;
         _fileSystem = fileSystem;
+    }
+
+    public void StartSyncing()
+    {
+        SyncFullSourceDirectory();
         
         _monitor.NewFile += (_, e ) => { EnqueueTask(() => HandleEvent(e));};
         _monitor.FileChanged += (_, e ) => { EnqueueTask(() => HandleEvent(e));};
         _monitor.FileRenamed += (_, e ) => { EnqueueTask(() => HandleEvent(e));};
         _monitor.FileDeleted += (_, e ) => { EnqueueTask(() => HandleEvent(e));};
-        _initialSyncTask = SyncFullSourceDirectory();
     }
-    
-    public async Task ProcessEvents()
+
+    public async Task<bool> AwaitEnqueuedEvents()
     {
-        await _initialSyncTask;
         try
         {
-            foreach (var getATaskFunc in _queuedSyncTasks.GetConsumingEnumerable())
-            {
-                try
-                {
-                    await getATaskFunc();
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error handling event: {ex.Message}");
-                }
-            }
+            return await _queuedSyncTasks.Reader.WaitToReadAsync();
+        }
+        catch (OperationCanceledException)
+        {
+            Console.WriteLine("Event processing cancelled");
+        }
+
+        return false;
+    }
+    
+    public async Task ProcessEnqueuedEvent()
+    {
+        try
+        {
+            var getATaskFunc = await _queuedSyncTasks.Reader.ReadAsync();
+            await getATaskFunc();
         }
         catch (OperationCanceledException)
         {
@@ -59,28 +66,25 @@ public class FileSyncer
 
     private void EnqueueTask(Func<Task> task)
     {
-        if (!_queuedSyncTasks.IsAddingCompleted)
-        {
-            _queuedSyncTasks.Add(task);     
-        }
+        _queuedSyncTasks.Writer.TryWrite(task);     
     }
 
-    private async Task SyncFullSourceDirectory()
+    private void SyncFullSourceDirectory()
     {
-        await SyncDirectoriesInSource();
-        await SyncFilesInSource();
+        SyncDirectoriesInSource();
+        SyncFilesInSource();
     }
 
-    private async Task SyncDirectoriesInSource()
+    private void SyncDirectoriesInSource()
     {
         IEnumerable<string> subDirectories = [];
         try
         {
             subDirectories = _fileSystem.Directory.EnumerateDirectories(_sourceDirPath, "*", SearchOption.AllDirectories);
         } 
-        catch (FileNotFoundException ex)
+        catch (DirectoryNotFoundException ex)
         {
-            Console.WriteLine($"File not found");
+            Console.WriteLine($"Directory not found {_sourceDirPath}");
         }
         catch (Exception ex)
         {
@@ -89,7 +93,7 @@ public class FileSyncer
 
         foreach (var dirPath in subDirectories)
         {
-            await SyncDir(dirPath);
+            EnqueueTask(() => SyncDir(dirPath));
         } 
     }
 
@@ -106,17 +110,13 @@ public class FileSyncer
 
             await _transport.Post(syncTask);
         }
-        catch (FileNotFoundException ex)
-        {
-            Console.WriteLine($"File not found");
-        }
         catch (Exception ex)
         {
             Console.WriteLine($"error {ex.Message}");
         }
     }
     
-    private async Task SyncFilesInSource()
+    private void SyncFilesInSource()
     {
         IEnumerable<string> fileNames = [];
         try
@@ -134,7 +134,7 @@ public class FileSyncer
 
         foreach (var fileName in fileNames)
         {
-            await SyncFile(fileName);
+            EnqueueTask(() => SyncFile(fileName));
         } 
     }
 
@@ -155,7 +155,7 @@ public class FileSyncer
         }
         catch (FileNotFoundException ex)
         {
-            Console.WriteLine($"File not found");
+            Console.WriteLine($"File not found {fullPath}");
         }
         catch (Exception ex)
         {
@@ -168,7 +168,7 @@ public class FileSyncer
         try
         {
             var fullPath = ToFullPath(e.RelativePath);
-            FileAttributes attributes = File.GetAttributes(fullPath);
+            FileAttributes attributes = _fileSystem.File.GetAttributes(fullPath);
             if (attributes.HasFlag(FileAttributes.Directory))
             {
                 await SyncDir(fullPath);
@@ -177,10 +177,6 @@ public class FileSyncer
             {
                 await SyncFile(fullPath);
             }
-        }
-        catch (FileNotFoundException ex)
-        {
-            Console.WriteLine($"File not found ${e.RelativePath}");
         }
         catch (Exception ex)
         {
