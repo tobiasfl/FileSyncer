@@ -99,7 +99,7 @@ public class FileSyncerTest
     }
     
     [Fact]
-    public async Task Test_ProcessEnqueuedEvents_StartsProcessingOldestEvents()
+    public async Task Test_ProcessEnqueuedEvent_StartsProcessingOldestEvents()
     {
         var callOrder = new List<int>(2);
         _transportMock

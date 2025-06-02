@@ -27,7 +27,7 @@ class Program
             return;
         }
 
-        if (!int.TryParse(args[2], out var serverPort))
+        if (!int.TryParse(args[2], out var serverPort) || IsInValidPortRange(serverPort))
         {
             Console.WriteLine($"Invalid port arg");
             return;
@@ -35,7 +35,12 @@ class Program
         
         var fileSystem = new FileSystem();
         var monitor = new FileMonitor(sourceDirPath, new FileSystemWatcherWrapper(fileSystem));
-        var transport = new Transport(serverHost, serverPort);
+
+        ITransport? transport = CreateTransport(serverHost, serverPort);
+        if (transport == null)
+        {
+            return;
+        }
         var syncer = new FileSyncer(sourceDirPath, transport, monitor, fileSystem);
         
         syncer.StartSyncing();
@@ -44,9 +49,24 @@ class Program
             await syncer.ProcessEnqueuedEvent();
         }
     }
+
+    private static ITransport? CreateTransport(string serverHost, int serverPort)
+    {
+        try
+        {
+            return new Transport(serverHost, serverPort);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Failed to connect to server" + ex.Message);
+            return null;
+        }
+    }
     
     private static bool IsValidSourceDir(string sourceDirPath)
     {
         return !string.IsNullOrEmpty(sourceDirPath) && Directory.Exists(sourceDirPath);
     }
+    
+    private static bool IsInValidPortRange(int port) => port >= System.Net.IPEndPoint.MinPort && port <= System.Net.IPEndPoint.MaxPort;
 }

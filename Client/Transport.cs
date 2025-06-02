@@ -24,7 +24,7 @@ public class Transport : ITransport
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase
         };
     }
-
+    
     private async Task SendTask(SyncTask task)
     {
         var json = JsonSerializer.Serialize(task, _options);
@@ -42,11 +42,6 @@ public class Transport : ITransport
             Console.WriteLine(e.Message);
         }
     }
-    private void Dispose()
-    {
-        _stream?.Dispose();
-        _client?.Dispose();
-    } 
     
     public async Task Post(SyncTask task)
     {
