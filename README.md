@@ -35,6 +35,3 @@ e.g. $dotnet run --project Client/Client.csproj -- /home/tobias/client_proj_test
 - Use TLS to make sure the data is encrypted!
 - Unit tests with very large files
 
-### Time spent
-
-In total around 15 hours ish, accumulated over some evenings. (Lots of time spent getting familiar with the language and the frameworks again.)
