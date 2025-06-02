@@ -27,7 +27,7 @@ class Program
             return;
         }
 
-        if (!int.TryParse(args[2], out var serverPort) || IsInValidPortRange(serverPort))
+        if (!int.TryParse(args[2], out var serverPort) || !IsInValidPortRange(serverPort))
         {
             Console.WriteLine($"Invalid port arg");
             return;

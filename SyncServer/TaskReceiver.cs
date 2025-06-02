@@ -42,13 +42,12 @@ public class TaskReceiver
             {
                 const int lengthFieldBytes = 4;
                 var lengthBytes = new byte[lengthFieldBytes];
-                var bytesRead = await ReadExactly(stream, lengthBytes, lengthFieldBytes);
-                if (bytesRead == 0) break;
+                await stream.ReadExactlyAsync(lengthBytes, 0, lengthFieldBytes);
 
                 var length = BitConverter.ToInt32(lengthBytes);
                 
                 var taskData = new byte[length];
-                await ReadExactly(stream, taskData, length);
+                await stream.ReadExactlyAsync(taskData, 0, length);
                 
                 var json = System.Text.Encoding.UTF8.GetString(taskData);
                 try
@@ -73,18 +72,5 @@ public class TaskReceiver
         {
             client.Close();
         }
-    }
-    
-    private async Task<int> ReadExactly(NetworkStream stream, byte[] buffer, int count)
-    {
-        int totalRead = 0;
-        while (totalRead < count)
-        {
-            var read = await stream.ReadAsync(buffer, totalRead, count - totalRead);
-            bool isConnectionClosed = read == 0;
-            if (isConnectionClosed) return totalRead;
-            totalRead += read;
-        }
-        return totalRead;
     }
 }

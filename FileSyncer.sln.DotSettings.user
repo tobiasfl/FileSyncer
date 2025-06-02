@@ -16,9 +16,13 @@
 	
 	
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=bbeef0af_002D84fe_002D4ba5_002D9646_002D68080d18c467/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Test_SendTask_PrependsLengthOfSerializedData" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;TestAncestor&gt;
-    &lt;TestId&gt;xUnit::7DB75E2C-3D97-4702-9071-3F290E7AB509::net9.0::Tests.TransportTest&lt;/TestId&gt;
-  &lt;/TestAncestor&gt;
+  &lt;Or&gt;
+    &lt;TestAncestor&gt;
+      &lt;TestId&gt;xUnit::7DB75E2C-3D97-4702-9071-3F290E7AB509::net9.0::Tests.TransportTest&lt;/TestId&gt;
+    &lt;/TestAncestor&gt;
+    &lt;ProjectFile&gt;7DB75E2C-3D97-4702-9071-3F290E7AB509/f:FileSyncerTest.cs&lt;/ProjectFile&gt;
+    &lt;ProjectFile&gt;7DB75E2C-3D97-4702-9071-3F290E7AB509/f:FileMonitorTest.cs&lt;/ProjectFile&gt;
+  &lt;/Or&gt;
 &lt;/SessionState&gt;</s:String>
 	
 	
